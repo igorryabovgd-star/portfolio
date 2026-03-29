@@ -12,6 +12,7 @@ margin:0;
 background:black;
 overflow:hidden;
 font-family:Arial, sans-serif;
+cursor:pointer;
 }
 
 .project{
@@ -30,6 +31,7 @@ object-fit:contain;
 position:absolute;
 opacity:0;
 transition:opacity 0.8s ease;
+pointer-events:none;
 }
 
 .project img.active{
@@ -46,7 +48,8 @@ font-size:13px;
 letter-spacing:0.05em;
 opacity:0.6;
 transition:opacity 0.3s;
-z-index:10;
+z-index:999;
+cursor:pointer;
 }
 
 .email:hover{
@@ -61,13 +64,14 @@ opacity:1;
 
 <div class="project" id="project"></div>
 
-<a class="email" href="mailto:your@email.com">email</a>
+<a class="email" href="mailto:igor@ryabov.design">igor@ryabov.design</a>
 
 <script>
 
 const projects = [
+
 [
-"projects/project1/1.png",
+"projects/project1/1.png"
 ],
 
 [
@@ -93,7 +97,7 @@ setTimeout(()=>{
 img.classList.add("active")
 },50)
 
-if(container.children.length > 1){
+if(container.children.length>1){
 setTimeout(()=>{
 container.removeChild(container.children[0])
 },800)
@@ -103,14 +107,13 @@ container.removeChild(container.children[0])
 
 showSlide()
 
-
-// смена слайдов
+// автоматическая смена слайдов
 setInterval(()=>{
 
 slideIndex++
 
-if(slideIndex >= projects[projectIndex].length){
-slideIndex = 0
+if(slideIndex>=projects[projectIndex].length){
+slideIndex=0
 }
 
 showSlide()
@@ -119,17 +122,19 @@ showSlide()
 
 
 // клик → следующий проект
-window.addEventListener("click",()=>{
+window.addEventListener("click",(e)=>{
+
+if(e.target.classList.contains("email")) return
 
 projectIndex++
 
-if(projectIndex >= projects.length){
-projectIndex = 0
+if(projectIndex>=projects.length){
+projectIndex=0
 }
 
-slideIndex = 0
+slideIndex=0
 
-container.innerHTML = ""
+container.innerHTML=""
 
 showSlide()
 
