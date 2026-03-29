@@ -25,10 +25,10 @@ justify-content:center;
 }
 
 .project img{
+position:absolute;
 width:100vw;
 height:100vh;
 object-fit:contain;
-position:absolute;
 opacity:0;
 transition:opacity 0.8s ease;
 pointer-events:none;
@@ -49,7 +49,6 @@ letter-spacing:0.05em;
 opacity:0.6;
 transition:opacity 0.3s;
 z-index:999;
-cursor:pointer;
 }
 
 .email:hover{
@@ -62,9 +61,14 @@ opacity:1;
 
 <body>
 
-<div class="project" id="project"></div>
+<div class="project">
 
-<a class="email" href="mailto:igor@ryabov.design">igor@ryabov.design</a>
+<img id="imgA">
+<img id="imgB">
+
+</div>
+
+<a class="email" href="mailto:igorryabovgd@gmail.com">email</a>
 
 <script>
 
@@ -84,9 +88,13 @@ const projects = [
 let projectIndex = 0
 let slideIndex = 0
 
-const container = document.getElementById("project")
+const imgA = document.getElementById("imgA")
+const imgB = document.getElementById("imgB")
 
-// preload изображений
+let current = imgA
+let next = imgB
+
+// preload всех изображений
 projects.flat().forEach(src=>{
 const img = new Image()
 img.src = src
@@ -94,70 +102,67 @@ img.src = src
 
 function showSlide(){
 
-const img = document.createElement("img")
-img.src = projects[projectIndex][slideIndex]
+const slides = projects[projectIndex]
 
-container.appendChild(img)
+next.src = slides[slideIndex]
+
+requestAnimationFrame(()=>{
+
+next.classList.add("active")
+current.classList.remove("active")
+
+})
 
 setTimeout(()=>{
-img.classList.add("active")
-},50)
 
-if(container.children.length>1){
-setTimeout(()=>{
-container.removeChild(container.children[0])
+[current,next] = [next,current]
+
 },800)
-}
 
 }
 
-showSlide()
-
-// автопереключение слайдов
-setInterval(()=>{
+function nextSlide(){
 
 slideIndex++
 
-if(slideIndex>=projects[projectIndex].length){
-slideIndex=0
+if(slideIndex >= projects[projectIndex].length){
+slideIndex = 0
 }
 
 showSlide()
 
-},3000)
+}
 
+showSlide()
 
-// следующий проект
+setInterval(nextSlide,3000)
+
 function nextProject(){
 
 projectIndex++
 
-if(projectIndex>=projects.length){
-projectIndex=0
+if(projectIndex >= projects.length){
+projectIndex = 0
 }
 
-slideIndex=0
-container.innerHTML=""
+slideIndex = 0
 showSlide()
 
 }
 
-// предыдущий проект
 function prevProject(){
 
 projectIndex--
 
-if(projectIndex<0){
-projectIndex=projects.length-1
+if(projectIndex < 0){
+projectIndex = projects.length-1
 }
 
-slideIndex=0
-container.innerHTML=""
+slideIndex = 0
 showSlide()
 
 }
 
-// клик мыши
 window.addEventListener("click",(e)=>{
 
 if(e.target.classList.contains("email")) return
@@ -165,7 +170,6 @@ nextProject()
 
 })
 
-// клавиатура
 window.addEventListener("keydown",(e)=>{
 
 if(e.key==="ArrowRight") nextProject()
