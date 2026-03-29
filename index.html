@@ -23,9 +23,16 @@ justify-content:center;
 }
 
 .project img{
-max-width:90vw;
-max-height:90vh;
+width:100vw;
+height:100vh;
 object-fit:contain;
+position:absolute;
+opacity:0;
+transition:opacity 0.8s ease;
+}
+
+.project img.active{
+opacity:1;
 }
 
 </style>
@@ -57,51 +64,60 @@ const container = document.getElementById("project")
 
 function showSlide(){
 
-container.innerHTML = ""
-
-let img = document.createElement("img")
+const img = document.createElement("img")
 img.src = projects[projectIndex][slideIndex]
 
 container.appendChild(img)
+
+setTimeout(()=>{
+img.classList.add("active")
+},50)
+
+if(container.children.length > 1){
+setTimeout(()=>{
+container.removeChild(container.children[0])
+},800)
+}
 
 }
 
 showSlide()
 
-window.addEventListener("wheel",e=>{
 
-if(e.deltaY>0){
+// автоматическая смена слайдов
+setInterval(()=>{
 
 slideIndex++
 
-if(slideIndex>=projects[projectIndex].length){
+if(slideIndex >= projects[projectIndex].length){
+slideIndex = 0
+}
 
-slideIndex=0
+showSlide()
+
+},3000)
+
+
+// колесо мыши переключает проекты
+window.addEventListener("wheel",e=>{
+
+if(e.deltaY>0){
 projectIndex++
-
-if(projectIndex>=projects.length){
-projectIndex=0
-}
-
-}
-
 }else{
-
-slideIndex--
-
-if(slideIndex<0){
-
 projectIndex--
-
-if(projectIndex<0){
-projectIndex=projects.length-1
 }
 
-slideIndex=projects[projectIndex].length-1
-
+if(projectIndex >= projects.length){
+projectIndex = 0
 }
 
+if(projectIndex < 0){
+projectIndex = projects.length - 1
 }
+
+slideIndex = 0
+
+container.innerHTML = ""
 
 showSlide()
 
