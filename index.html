@@ -13,6 +13,13 @@ background:black;
 overflow:hidden;
 font-family:Arial, sans-serif;
 cursor:pointer;
+
+opacity:0;
+transition:opacity 1.2s ease;
+}
+
+body.hideCursor{
+cursor:none;
 }
 
 .project{
@@ -49,6 +56,7 @@ letter-spacing:0.05em;
 opacity:0.6;
 transition:opacity 0.3s;
 z-index:999;
+cursor:auto;
 }
 
 .email:hover{
@@ -94,7 +102,9 @@ const imgB = document.getElementById("imgB")
 let current = imgA
 let next = imgB
 
-// preload всех изображений
+let slideTimer
+
+// preload
 projects.flat().forEach(src=>{
 const img = new Image()
 img.src = src
@@ -114,9 +124,7 @@ current.classList.remove("active")
 })
 
 setTimeout(()=>{
-
 [current,next] = [next,current]
-
 },800)
 
 }
@@ -133,9 +141,15 @@ showSlide()
 
 }
 
-showSlide()
+function startSlider(){
 
-setInterval(nextSlide,3000)
+clearInterval(slideTimer)
+slideTimer = setInterval(nextSlide,3000)
+
+}
+
+showSlide()
+startSlider()
 
 function nextProject(){
 
@@ -147,6 +161,7 @@ projectIndex = 0
 
 slideIndex = 0
 showSlide()
+startSlider()
 
 }
 
@@ -160,6 +175,7 @@ projectIndex = projects.length-1
 
 slideIndex = 0
 showSlide()
+startSlider()
 
 }
 
@@ -176,6 +192,35 @@ if(e.key==="ArrowRight") nextProject()
 if(e.key==="ArrowLeft") prevProject()
 
 })
+
+
+// fade-in сайта
+window.addEventListener("load",()=>{
+document.body.style.opacity = 1
+})
+
+
+// автоскрытие курсора
+
+let cursorTimer
+
+function hideCursor(){
+document.body.classList.add("hideCursor")
+}
+
+function resetCursor(){
+
+document.body.classList.remove("hideCursor")
+
+clearTimeout(cursorTimer)
+cursorTimer = setTimeout(hideCursor,2000)
+
+}
+
+window.addEventListener("mousemove",resetCursor)
+window.addEventListener("mousedown",resetCursor)
+
+resetCursor()
 
 </script>
 
