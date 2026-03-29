@@ -13,7 +13,6 @@ background:black;
 overflow:hidden;
 font-family:Arial, sans-serif;
 cursor:pointer;
-
 opacity:0;
 transition:opacity 1.2s ease;
 }
@@ -45,46 +44,48 @@ pointer-events:none;
 opacity:1;
 }
 
-.email{
+/* project title */
+
+.projectTitle{
+position:fixed;
+top:30px;
+left:30px;
+color:rgba(128,128,128,0.8);
+font-size:13px;
+letter-spacing:0.05em;
+z-index:999;
+pointer-events:none;
+}
+
+/* name */
+
+.name{
 position:fixed;
 top:30px;
 right:30px;
-color:white;
+color:rgba(128,128,128,0.8);
+font-size:13px;
+letter-spacing:0.05em;
+z-index:999;
+pointer-events:none;
+}
+
+/* email */
+
+.email{
+position:fixed;
+bottom:30px;
+right:30px;
+color:rgba(128,128,128,0.8);
 text-decoration:none;
 font-size:13px;
 letter-spacing:0.05em;
-opacity:0.6;
-transition:opacity 0.3s;
 z-index:999;
 cursor:auto;
 }
 
 .email:hover{
-opacity:1;
-}
-
-.name{
-position:fixed;
-top:30px;
-left:30px;
-color:white;
-font-size:13px;
-letter-spacing:0.05em;
-opacity:0.6;
-z-index:999;
-pointer-events:none;
-}
-
-.projectTitle{
-position:fixed;
-bottom:30px;
-right:30px;
-color:white;
-font-size:13px;
-letter-spacing:0.05em;
-opacity:0.6;
-z-index:999;
-pointer-events:none;
+opacity:0.5;
 }
 
 </style>
@@ -100,18 +101,18 @@ pointer-events:none;
 
 </div>
 
+<div class="projectTitle" id="projectTitle"></div>
+
 <div class="name">igor ryabov</div>
 
 <a class="email" href="mailto:igorryabovgd@gmail.com">email</a>
-
-<div class="projectTitle" id="projectTitle"></div>
 
 <script>
 
 const projects = [
 
 {
-title:"TRIPSTER",
+title:"tripster",
 slides:[
 "projects/tripster/01.webp",
 "projects/tripster/02.webp"
@@ -132,6 +133,7 @@ let next = imgB
 let slideTimer
 
 // preload images
+
 projects.forEach(project=>{
 project.slides.forEach(src=>{
 const img = new Image()
@@ -225,12 +227,13 @@ if(e.key==="ArrowLeft") prevProject()
 
 })
 
-// fade-in сайта
+/* fade in */
+
 window.addEventListener("load",()=>{
 document.body.style.opacity = 1
 })
 
-// автоскрытие курсора
+/* auto hide cursor */
 
 let cursorTimer
 
