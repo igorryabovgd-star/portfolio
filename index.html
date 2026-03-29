@@ -56,10 +56,6 @@ cursor:pointer;
 opacity:1;
 }
 
-.email:hover{
-opacity:1;
-}
-
 </style>
 
 </head>
@@ -90,6 +86,12 @@ let slideIndex = 0
 
 const container = document.getElementById("project")
 
+// preload изображений
+projects.flat().forEach(src=>{
+const img = new Image()
+img.src = src
+})
+
 function showSlide(){
 
 const img = document.createElement("img")
@@ -111,7 +113,7 @@ container.removeChild(container.children[0])
 
 showSlide()
 
-// автоматическая смена слайдов
+// автопереключение слайдов
 setInterval(()=>{
 
 slideIndex++
@@ -125,10 +127,8 @@ showSlide()
 },3000)
 
 
-// клик → следующий проект
-window.addEventListener("click",(e)=>{
-
-if(e.target.classList.contains("email")) return
+// следующий проект
+function nextProject(){
 
 projectIndex++
 
@@ -137,10 +137,39 @@ projectIndex=0
 }
 
 slideIndex=0
-
 container.innerHTML=""
-
 showSlide()
+
+}
+
+// предыдущий проект
+function prevProject(){
+
+projectIndex--
+
+if(projectIndex<0){
+projectIndex=projects.length-1
+}
+
+slideIndex=0
+container.innerHTML=""
+showSlide()
+
+}
+
+// клик мыши
+window.addEventListener("click",(e)=>{
+
+if(e.target.classList.contains("email")) return
+nextProject()
+
+})
+
+// клавиатура
+window.addEventListener("keydown",(e)=>{
+
+if(e.key==="ArrowRight") nextProject()
+if(e.key==="ArrowLeft") prevProject()
 
 })
 
