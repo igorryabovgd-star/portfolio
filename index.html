@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta charset="UTF-8">
-
 <title>Igor Ryabov Portfolio</title>
 
 <style>
 
 body{
 margin:0;
-background:#111;
+background:black;
+overflow:hidden;
 }
 
 .project{
+position:absolute;
+width:100vw;
 height:100vh;
 display:flex;
-overflow-x:auto;
-scroll-snap-type:x mandatory;
+align-items:center;
+justify-content:center;
 }
 
-.slide{
-flex:0 0 100%;
-scroll-snap-align:start;
-}
-
-img{
-width:100%;
-height:100%;
+.project img{
+max-width:90vw;
+max-height:90vh;
 object-fit:contain;
 }
 
@@ -38,34 +34,82 @@ object-fit:contain;
 
 <body>
 
-<div class="project">
+<div class="project" id="project"></div>
 
-<div class="slide">
-<img src="https://picsum.photos/2000/1250?1">
-</div>
+<script>
 
-<div class="slide">
-<img src="https://picsum.photos/2000/1250?2">
-</div>
+const projects = [
+[
+"projects/project1/1.jpg",
+"projects/project1/2.jpg",
+"projects/project1/3.jpg"
+],
 
-<div class="slide">
-<img src="https://picsum.photos/2000/1250?3">
-</div>
+[
+"projects/project2/1.jpg",
+"projects/project2/2.jpg"
+]
 
-</div>
+]
 
-<div class="project">
+let projectIndex = 0
+let slideIndex = 0
 
-<div class="slide">
-<img src="https://picsum.photos/2000/1250?4">
-</div>
+const container = document.getElementById("project")
 
-<div class="slide">
-<img src="https://picsum.photos/2000/1250?5">
-</div>
+function showSlide(){
 
-</div>
+container.innerHTML = ""
+
+let img = document.createElement("img")
+img.src = projects[projectIndex][slideIndex]
+
+container.appendChild(img)
+
+}
+
+showSlide()
+
+window.addEventListener("wheel",e=>{
+
+if(e.deltaY>0){
+
+slideIndex++
+
+if(slideIndex>=projects[projectIndex].length){
+
+slideIndex=0
+projectIndex++
+
+if(projectIndex>=projects.length){
+projectIndex=0
+}
+
+}
+
+}else{
+
+slideIndex--
+
+if(slideIndex<0){
+
+projectIndex--
+
+if(projectIndex<0){
+projectIndex=projects.length-1
+}
+
+slideIndex=projects[projectIndex].length-1
+
+}
+
+}
+
+showSlide()
+
+})
+
+</script>
 
 </body>
-
 </html>
