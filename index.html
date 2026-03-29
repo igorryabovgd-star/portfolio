@@ -11,7 +11,7 @@ body{
 margin:0;
 background:black;
 overflow:hidden;
-font-family:Arial,sans-serif;
+font-family:Arial, sans-serif;
 cursor:pointer;
 opacity:0;
 transition:opacity 1.2s ease;
@@ -89,10 +89,8 @@ opacity:0.5;
 <body>
 
 <div class="project">
-
 <img id="imgA">
 <img id="imgB">
-
 </div>
 
 <div class="projectTitle" id="projectTitle"></div>
@@ -103,65 +101,78 @@ opacity:0.5;
 
 <script>
 
-const repoUser="igorryabovgd-star"
-const repoName="portfolio"
-
-const projects=[
+const projects = [
 
 {
 title:"tripster",
-folder:"projects/tripster"
+slides:[
+
+"projects/tripster/01.png",
+"projects/tripster/02.png",
+"projects/tripster/03.png",
+"projects/tripster/04.png",
+"projects/tripster/05.png",
+"projects/tripster/06.png",
+"projects/tripster/07.png",
+"projects/tripster/08.png",
+"projects/tripster/09.png",
+
+"projects/tripster/10.jpg",
+"projects/tripster/11.jpg",
+"projects/tripster/12.jpg",
+"projects/tripster/13.jpg",
+"projects/tripster/14.jpg",
+"projects/tripster/15.jpg",
+"projects/tripster/16.jpg",
+"projects/tripster/17.jpg",
+"projects/tripster/18.jpg",
+
+"projects/tripster/19.png",
+"projects/tripster/20.png",
+"projects/tripster/21.png",
+"projects/tripster/22.png",
+"projects/tripster/23.png",
+"projects/tripster/24.png",
+"projects/tripster/25.png",
+"projects/tripster/26.png",
+"projects/tripster/27.png",
+"projects/tripster/28.png",
+"projects/tripster/29.png",
+"projects/tripster/30.png",
+"projects/tripster/31.png"
+
+]
 }
 
 ]
 
-let slides=[]
-let slideIndex=0
+let projectIndex = 0
+let slideIndex = 0
 
-const imgA=document.getElementById("imgA")
-const imgB=document.getElementById("imgB")
-const title=document.getElementById("projectTitle")
+const imgA = document.getElementById("imgA")
+const imgB = document.getElementById("imgB")
+const projectTitle = document.getElementById("projectTitle")
 
-let current=imgA
-let next=imgB
+let current = imgA
+let next = imgB
 
 let slideTimer
 
-async function loadSlides(){
-
-const project=projects[0]
-
-const url=`https://api.github.com/repos/${repoUser}/${repoName}/contents/${project.folder}`
-
-const response=await fetch(url)
-const data=await response.json()
-
-slides=data
-.filter(file=>file.name.match(/\.(png|jpg|jpeg|webp)$/i))
-.sort((a,b)=>a.name.localeCompare(b.name,{numeric:true}))
-.map(file=>file.download_url)
-
-preload()
-
-showSlide()
-startSlider()
-
-}
-
-function preload(){
-
-slides.forEach(src=>{
-const img=new Image()
-img.src=src
+projects.forEach(project=>{
+project.slides.forEach(src=>{
+const img = new Image()
+img.src = src
 })
-
-}
+})
 
 function showSlide(){
 
-title.textContent=projects[0].title
+const project = projects[projectIndex]
+const slides = project.slides
 
-next.src=slides[slideIndex]
+projectTitle.textContent = project.title
+
+next.src = slides[slideIndex]
 
 requestAnimationFrame(()=>{
 
@@ -171,9 +182,7 @@ current.classList.remove("active")
 })
 
 setTimeout(()=>{
-
-[current,next]=[next,current]
-
+[current,next] = [next,current]
 },800)
 
 }
@@ -182,8 +191,8 @@ function nextSlide(){
 
 slideIndex++
 
-if(slideIndex>=slides.length){
-slideIndex=0
+if(slideIndex >= projects[projectIndex].slides.length){
+slideIndex = 0
 }
 
 showSlide()
@@ -193,34 +202,57 @@ showSlide()
 function startSlider(){
 
 clearInterval(slideTimer)
-slideTimer=setInterval(nextSlide,3000)
+slideTimer = setInterval(nextSlide,3000)
+
+}
+
+function nextProject(){
+
+projectIndex++
+
+if(projectIndex >= projects.length){
+projectIndex = 0
+}
+
+slideIndex = 0
+showSlide()
+startSlider()
+
+}
+
+function prevProject(){
+
+projectIndex--
+
+if(projectIndex < 0){
+projectIndex = projects.length-1
+}
+
+slideIndex = 0
+showSlide()
+startSlider()
 
 }
 
 window.addEventListener("click",(e)=>{
 
 if(e.target.classList.contains("email")) return
-
-nextSlide()
+nextProject()
 
 })
 
 window.addEventListener("keydown",(e)=>{
 
-if(e.key==="ArrowRight") nextSlide()
-if(e.key==="ArrowLeft"){
-slideIndex--
-if(slideIndex<0) slideIndex=slides.length-1
-showSlide()
-}
+if(e.key==="ArrowRight") nextProject()
+if(e.key==="ArrowLeft") prevProject()
 
 })
 
 window.addEventListener("load",()=>{
 
-loadSlides()
-
-document.body.style.opacity=1
+showSlide()
+startSlider()
+document.body.style.opacity = 1
 
 })
 
@@ -235,7 +267,7 @@ function resetCursor(){
 document.body.classList.remove("hideCursor")
 
 clearTimeout(cursorTimer)
-cursorTimer=setTimeout(hideCursor,2000)
+cursorTimer = setTimeout(hideCursor,2000)
 
 }
 
