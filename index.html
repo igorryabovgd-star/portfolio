@@ -63,6 +63,30 @@ cursor:auto;
 opacity:1;
 }
 
+.name{
+position:fixed;
+top:30px;
+left:30px;
+color:white;
+font-size:13px;
+letter-spacing:0.05em;
+opacity:0.6;
+z-index:999;
+pointer-events:none;
+}
+
+.projectTitle{
+position:fixed;
+bottom:30px;
+right:30px;
+color:white;
+font-size:13px;
+letter-spacing:0.05em;
+opacity:0.6;
+z-index:999;
+pointer-events:none;
+}
+
 </style>
 
 </head>
@@ -76,20 +100,23 @@ opacity:1;
 
 </div>
 
+<div class="name">igor ryabov</div>
+
 <a class="email" href="mailto:igorryabovgd@gmail.com">email</a>
+
+<div class="projectTitle" id="projectTitle"></div>
 
 <script>
 
 const projects = [
 
-[
-"projects/project1/1.png"
-],
-
-[
-"projects/project2/1.png",
-"projects/project2/2.png"
+{
+title:"TRIPSTER",
+slides:[
+"projects/tripster/01.webp",
+"projects/tripster/02.webp"
 ]
+}
 
 ]
 
@@ -104,15 +131,20 @@ let next = imgB
 
 let slideTimer
 
-// preload
-projects.flat().forEach(src=>{
+// preload images
+projects.forEach(project=>{
+project.slides.forEach(src=>{
 const img = new Image()
 img.src = src
+})
 })
 
 function showSlide(){
 
-const slides = projects[projectIndex]
+const project = projects[projectIndex]
+const slides = project.slides
+
+document.getElementById("projectTitle").textContent = project.title
 
 next.src = slides[slideIndex]
 
@@ -133,7 +165,7 @@ function nextSlide(){
 
 slideIndex++
 
-if(slideIndex >= projects[projectIndex].length){
+if(slideIndex >= projects[projectIndex].slides.length){
 slideIndex = 0
 }
 
@@ -193,12 +225,10 @@ if(e.key==="ArrowLeft") prevProject()
 
 })
 
-
 // fade-in сайта
 window.addEventListener("load",()=>{
 document.body.style.opacity = 1
 })
-
 
 // автоскрытие курсора
 
