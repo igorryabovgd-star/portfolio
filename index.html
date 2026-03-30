@@ -9,12 +9,12 @@
 
 body{
 margin:0;
-background:black;
+background:white;
 overflow:hidden;
 font-family:Arial, sans-serif;
 cursor:pointer;
 opacity:0;
-transition:opacity 1.2s ease;
+transition:opacity 1.2s ease, background 0.6s ease;
 }
 
 body.hideCursor{
@@ -101,13 +101,33 @@ opacity:0.5;
 
 <script>
 
+function generateSlides(count){
+return Array.from({length:count}, (_,i)=>{
+let n = String(i+1).padStart(2,"0")
+return `projects/tripster/${n}.webp`
+})
+}
+
+function getBackground(src){
+
+let name = src.split("/").pop().replace(".webp","")
+let parts = name.split("_")
+
+if(parts.length === 1) return "white"
+
+let suffix = parts[1]
+
+if(suffix === "b") return "black"
+
+return "#" + suffix
+
+}
+
 const projects = [
 
 {
 title:"tripster",
-slides: Array.from({length:31}, (_,i)=>i+1)
-.filter(n => ![10,11,12].includes(n))
-.map(n => `projects/tripster/${String(n).padStart(2,"0")}.webp`)
+slides: generateSlides(31)
 }
 
 ]
@@ -138,7 +158,11 @@ const slides = project.slides
 
 projectTitle.textContent = project.title
 
-next.src = slides[slideIndex]
+let src = slides[slideIndex]
+
+document.body.style.background = getBackground(src)
+
+next.src = src
 
 requestAnimationFrame(()=>{
 
