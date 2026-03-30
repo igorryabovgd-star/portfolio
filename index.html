@@ -101,13 +101,6 @@ opacity:0.5;
 
 <script>
 
-function generateSlides(count){
-return Array.from({length:count}, (_,i)=>{
-let n = String(i+1).padStart(2,"0")
-return `projects/tripster/${n}.webp`
-})
-}
-
 function getBackground(src){
 
 let name = src.split("/").pop().replace(".webp","")
@@ -126,8 +119,26 @@ return "#" + suffix
 const projects = [
 
 {
-title:"tripster",
-slides: generateSlides(31)
+title:"vegastar",
+slides:[
+
+"projects/vegastar/01.webp",
+"projects/vegastar/02_b.webp",
+"projects/vegastar/03.webp",
+"projects/vegastar/04.webp",
+"projects/vegastar/05.webp",
+"projects/vegastar/06.webp",
+"projects/vegastar/07.webp",
+"projects/vegastar/08.webp",
+"projects/vegastar/09.webp",
+"projects/vegastar/10.webp",
+"projects/vegastar/11_b.webp",
+"projects/vegastar/12_F7F7F7.webp",
+"projects/vegastar/13_F7F7F7.webp",
+"projects/vegastar/14_b.webp"
+
+]
+
 }
 
 ]
