@@ -9,16 +9,30 @@
 
 body{
 margin:0;
-background:white;
 overflow:hidden;
 font-family:Arial, sans-serif;
 cursor:pointer;
 opacity:0;
-transition:opacity 1.2s ease, background 0.6s ease;
+transition:opacity 1.2s ease;
 }
 
 body.hideCursor{
 cursor:none;
+}
+
+.bg{
+position:fixed;
+top:0;
+left:0;
+width:100vw;
+height:100vh;
+opacity:0;
+transition:opacity 0.8s ease;
+z-index:-1;
+}
+
+.bg.active{
+opacity:1;
 }
 
 .project{
@@ -86,6 +100,9 @@ opacity:0.5;
 
 <body>
 
+<div id="bgA" class="bg active"></div>
+<div id="bgB" class="bg"></div>
+
 <div class="project">
 <img id="imgA">
 <img id="imgB">
@@ -146,10 +163,17 @@ let slideIndex = 0
 
 const imgA = document.getElementById("imgA")
 const imgB = document.getElementById("imgB")
+
+const bgA = document.getElementById("bgA")
+const bgB = document.getElementById("bgB")
+
 const projectTitle = document.getElementById("projectTitle")
 
-let current = imgA
-let next = imgB
+let currentImg = imgA
+let nextImg = imgB
+
+let currentBg = bgA
+let nextBg = bgB
 
 let slideTimer
 
@@ -162,15 +186,21 @@ projectTitle.textContent = project.title
 
 let src = slides[slideIndex]
 
-document.body.style.background = getBackground(src)
+let color = getBackground(src)
 
-next.src = src
-next.classList.add("active")
+nextBg.style.background = color
+nextBg.classList.add("active")
+currentBg.classList.remove("active")
 
-current.classList.remove("active")
+nextImg.src = src
+nextImg.classList.add("active")
+currentImg.classList.remove("active")
 
 setTimeout(()=>{
-[current,next] = [next,current]
+
+[currentImg,nextImg] = [nextImg,currentImg]
+[currentBg,nextBg] = [nextBg,currentBg]
+
 },800)
 
 }
