@@ -52,7 +52,6 @@ color:rgba(128,128,128,0.8);
 font-size:13px;
 letter-spacing:0.05em;
 z-index:999;
-pointer-events:none;
 }
 
 .name{
@@ -63,7 +62,6 @@ color:rgba(128,128,128,0.8);
 font-size:13px;
 letter-spacing:0.05em;
 z-index:999;
-pointer-events:none;
 }
 
 .email{
@@ -155,13 +153,6 @@ let next = imgB
 
 let slideTimer
 
-projects.forEach(project=>{
-project.slides.forEach(src=>{
-const img = new Image()
-img.src = src
-})
-})
-
 function showSlide(){
 
 const project = projects[projectIndex]
@@ -174,13 +165,9 @@ let src = slides[slideIndex]
 document.body.style.background = getBackground(src)
 
 next.src = src
-
-requestAnimationFrame(()=>{
-
 next.classList.add("active")
-current.classList.remove("active")
 
-})
+current.classList.remove("active")
 
 setTimeout(()=>{
 [current,next] = [next,current]
@@ -207,7 +194,18 @@ slideTimer = setInterval(nextSlide,3000)
 
 }
 
-function nextProject(){
+window.addEventListener("load",()=>{
+
+showSlide()
+startSlider()
+
+document.body.style.opacity = 1
+
+})
+
+window.addEventListener("click",(e)=>{
+
+if(e.target.classList.contains("email")) return
 
 projectIndex++
 
@@ -216,44 +214,9 @@ projectIndex = 0
 }
 
 slideIndex = 0
-showSlide()
-startSlider()
-
-}
-
-function prevProject(){
-
-projectIndex--
-
-if(projectIndex < 0){
-projectIndex = projects.length-1
-}
-
-slideIndex = 0
-showSlide()
-startSlider()
-
-}
-
-window.addEventListener("click",(e)=>{
-
-if(e.target.classList.contains("email")) return
-nextProject()
-
-})
-
-window.addEventListener("keydown",(e)=>{
-
-if(e.key==="ArrowRight") nextProject()
-if(e.key==="ArrowLeft") prevProject()
-
-})
-
-window.addEventListener("load",()=>{
 
 showSlide()
 startSlider()
-document.body.style.opacity = 1
 
 })
 
@@ -273,7 +236,6 @@ cursorTimer = setTimeout(hideCursor,2000)
 }
 
 window.addEventListener("mousemove",resetCursor)
-window.addEventListener("mousedown",resetCursor)
 
 resetCursor()
 
