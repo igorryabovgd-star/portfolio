@@ -193,8 +193,13 @@ nextBg.classList.add("active")
 currentBg.classList.remove("active")
 
 nextImg.src = src
+
+requestAnimationFrame(()=>{
+
 nextImg.classList.add("active")
 currentImg.classList.remove("active")
+
+})
 
 setTimeout(()=>{
 
