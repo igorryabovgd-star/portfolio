@@ -105,9 +105,9 @@ const projects = [
 
 {
 title:"tripster",
-slides: Array.from({length:31}, (_,i)=>
-`projects/tripster/${String(i+1).padStart(2,"0")}.webp`
-)
+slides: Array.from({length:31}, (_,i)=>i+1)
+.filter(n => ![10,11,12].includes(n))
+.map(n => `projects/tripster/${String(n).padStart(2,"0")}.webp`)
 }
 
 ]
