@@ -105,43 +105,9 @@ const projects = [
 
 {
 title:"tripster",
-slides:[
-
-"projects/tripster/01.png",
-"projects/tripster/02.png",
-"projects/tripster/03.png",
-"projects/tripster/04.png",
-"projects/tripster/05.png",
-"projects/tripster/06.png",
-"projects/tripster/07.png",
-"projects/tripster/08.png",
-"projects/tripster/09.png",
-
-"projects/tripster/10.jpg",
-"projects/tripster/11.jpg",
-"projects/tripster/12.jpg",
-"projects/tripster/13.jpg",
-"projects/tripster/14.jpg",
-"projects/tripster/15.jpg",
-"projects/tripster/16.jpg",
-"projects/tripster/17.jpg",
-"projects/tripster/18.jpg",
-
-"projects/tripster/19.png",
-"projects/tripster/20.png",
-"projects/tripster/21.png",
-"projects/tripster/22.png",
-"projects/tripster/23.png",
-"projects/tripster/24.png",
-"projects/tripster/25.png",
-"projects/tripster/26.png",
-"projects/tripster/27.png",
-"projects/tripster/28.png",
-"projects/tripster/29.png",
-"projects/tripster/30.png",
-"projects/tripster/31.png"
-
-]
+slides: Array.from({length:31}, (_,i)=>
+`projects/tripster/${String(i+1).padStart(2,"0")}.webp`
+)
 }
 
 ]
